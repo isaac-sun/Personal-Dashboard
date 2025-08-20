@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>英镑汇率查看器</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 100px;
+      background-color: #f4f7fa;
+    }
+
+    h1 {
+      color: #333;
+      font-size: 2em;
+    }
+
+    .currency-info {
+      font-size: 1.2em;
+      color: #666;
+      margin-bottom: 20px;
+    }
+
+    #rate {
+      font-size: 4em;
+      color: #28a745; /* 绿色，代表金钱 😄 */
+      font-weight: bold;
+      margin: 20px 0;
+    }
+
+    .note {
+      margin-top: 30px;
+      font-size: 0.9em;
+      color: #aaa;
+    }
+  </style>
+</head>
+<body>
+  <h1>💷 英镑汇率查看器</h1>
+  <div class="currency-info">当前英镑 (GBP) 对 人民币 (CNY) 汇率</div>
+  <div id="rate">9.48</div> <!-- 这里是写死的汇率，后续可以替换为动态数据 -->
+  <div class="note">* 示例数据，仅供展示页面效果</div>
+</body>
+</html>
