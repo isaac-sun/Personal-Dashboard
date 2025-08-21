@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-  <meta charset="UTF-8">
-  <title>人民币兑换查看器</title>
+  <meta charset="UTF-8" />
+  <title>🇬🇧 英镑汇率查看器（动态数据）</title>
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -14,7 +14,6 @@
     h1 {
       color: #333;
       font-size: 2em;
-      margin-bottom: 30px;
     }
 
     .currency-info {
@@ -23,11 +22,22 @@
       margin-bottom: 20px;
     }
 
-    #rate { /* ID选择器用#，非类选择器. */
+    #rate {
       font-size: 4em;
       color: #28a745;
       font-weight: bold;
       margin: 20px 0;
+    }
+
+    .loading {
+      font-size: 1.5em;
+      color: #888;
+    }
+
+    .error {
+      font-size: 1.2em;
+      color: red;
+      margin-top: 20px;
     }
 
     .note {
@@ -38,9 +48,50 @@
   </style>
 </head>
 <body>
-  <h1>人民币兑换查看器</h1>
-  <div class="currency-info">当前英镑（GBP）对人民币（CNY）汇率</div>
-  <div id="rate">9.48</div> <!-- 使用ID选择器对应CSS -->
-  <div class="note">示例1数据，仅供展示页面效果哦</div>
+  <h1>💷 英镑汇率查看器</h1>
+  <div class="currency-info">当前英镑 (GBP) 对 人民币 (CNY) 汇率</div>
+
+  <!-- 汇率数字将动态插入这里 -->
+  <div id="rate" class="loading">加载中...</div>
+
+  <!-- 错误提示（如果有） -->
+  <div id="error" class="error" style="display: none;"></div>
+
+  <div class="note">* 数据来自免费汇率API，实时更新</div>
+
+  <script>
+    // 当页面加载完成后执行
+    document.addEventListener('DOMContentLoaded', function () {
+      const rateElement = document.getElementById('rate');
+      const errorElement = document.getElementById('error');
+
+      // 调用免费汇率API：获取 GBP 兑 CNY 的最新汇率
+      fetch('https://api.frankfurter.app/latest?from=GBP&to=CNY')
+        .then(function (response) {
+          if (!response.ok) {
+            throw new Error('网络响应异常');
+          }
+          return response.json(); // 解析 JSON 数据
+        })
+        .then(function (data) {
+          // 从返回的数据中提取：1 GBP = ? CNY
+          const rate = data.rates.CNY;
+
+          // 更新页面上的数字
+          rateElement.textContent = rate.toFixed(4); // 保留4位小数
+          rateElement.className = 'loading'; // 重置样式类
+          errorElement.style.display = 'none'; // 隐藏错误信息
+        })
+        .catch(function (error) {
+          console.error('获取汇率失败:', error);
+
+          // 显示错误提示给用户
+          rateElement.textContent = '获取失败';
+          rateElement.className = 'loading';
+          errorElement.textContent = '无法获取最新汇率，请检查网络或稍后再试。';
+          errorElement.style.display = 'block';
+        });
+    });
+  </script>
 </body>
 </html>
